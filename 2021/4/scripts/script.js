@@ -6,11 +6,15 @@ let input_numbers = document.getElementById('#input_numbers').innerHTML.split(',
 for (let each in input_numbers) {
     input_numbers[each] = input_numbers[each].trim()
 }
+for (let each in grid_list) {
+    grid_list[each] = grid_list[each].trim()
+}
 
 
 function isEmpty(value) {
     return value !== '' & value !== '\n'
 }
+
 
 let grid_array = convertToArray(convertToArray(grid_list))
 
@@ -63,19 +67,9 @@ function drawNumber() {
     }
     num_string.appendChild(document.createTextNode(input_numbers[drawn] + ' '))
     document.getElementById("#floating").appendChild(num_string)
+
     check_each_cell(drawn)
     drawn++
-
-
-    //add new number to number list near button
-    // check each cell
-    //if in numbers then color 
-
-    //check each row and colon
-    //if 5 in row then function stop,winner
-    //function stop 
-    //write 'you win', number of winning ticket
-
 }
 
 function check_each_cell(number) {
@@ -84,7 +78,7 @@ function check_each_cell(number) {
             for (let cell in grid_array[grid][row]) {
                 if (grid_array[grid][row][cell] === input_numbers[number]) {
                     colorCell(grid, row, cell)
-                    checkForWinners(number)
+                    checkForWinners(number, grid, row, cell)
                 }
             }
         }
@@ -101,11 +95,35 @@ function colorCell(grid, row, cell) {
 }
 
 function checkForWinners(number, grid, row, cell) {
+
     let colum = [];
     let row_ = grid_array[grid][row]
-    for (each in grid_array[grid]) {
+    for (let each in grid_array[grid]) {
         colum.push(grid_array[grid][each][cell])
     }
+    let counter = 0
+    for (let each in colum) {
+        if (input_numbers.slice(0, number + 1).includes(String(colum[each]))) {
+            counter++
+        }
+    }
+    if (counter === 5) {
+        printWin(grid)
+    }
+    counter = 0
+    for (let each in row_) {
+        if (input_numbers.slice(0, number + 1).includes(String(row_[each]))) {
+            counter++
+        }
+    }
+    if (counter === 5) {
+        printWin(grid)
+    }
+}
+
+let printWin = (grid) => {
+    winningP = document.createElement('p')
+
 }
 
 
