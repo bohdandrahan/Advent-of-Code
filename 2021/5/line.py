@@ -12,7 +12,7 @@ class Line():
         elif self.start_point[1] == self.end_point[1]:
             self.calculate_positions(0)
         else:
-            pass
+            self.calculate_diagonal_position()
         
     def calculate_positions(self, axis):
         min_point = min(self.start_point[axis], self.end_point[axis])
@@ -23,6 +23,30 @@ class Line():
             elif axis == 0:
                 self.points.append((each, self.start_point[1]))
             else: raise Exception("Axis is invalid")
+    
+    def calculate_diagonal_position(self):
+        s = self.start_point
+        e = self.end_point
+
+        if s[0]<e[0] and s[1]<e[1]:
+            self.calculate_diagonal_up(s, e)
+        elif s[0]<e[0] and s[1]>e[1]:
+            self.calculate_diagonal_down(s, e)
+        elif s[0]>e[0] and s[1]>e[1]:
+            self.calculate_diagonal_up(e, s)
+        elif s[0]>e[0] and s[1]<e[1]:
+            self.calculate_diagonal_down(e, s)
+        
+    def calculate_diagonal_up(self, start, end):
+        for each, point_pos in enumerate(range(start[0], end[0]+1)):
+            self.points.append((start[0]+each, start[1]+each))
+    
+    def calculate_diagonal_down(self, start, end):
+        for each, point_pos in enumerate(range(start[0], end[0]+1)):
+            self.points.append((start[0]+each, start[1]-each))
+
+
+
     
     def get_points(self):
         return self.points
