@@ -3,6 +3,7 @@
 
 let grid_list = document.getElementById('#input_grid').innerHTML.split(' ').filter(isEmpty)
 let input_numbers = document.getElementById('#input_numbers').innerHTML.split(',').filter(isEmpty)
+let winning_grids = []
 for (let each in input_numbers) {
     input_numbers[each] = input_numbers[each].trim()
 }
@@ -107,27 +108,48 @@ function checkForWinners(number, grid, row, cell) {
             counter++
         }
     }
-    if (counter === 5) {
-        printWin(grid)
-    }
-    counter = 0
+
+    let counter2 = 0
     for (let each in row_) {
         if (input_numbers.slice(0, number + 1).includes(String(row_[each]))) {
-            counter++
+            counter2++
         }
     }
-    if (counter === 5) {
-        printWin(grid)
+    if (counter2 === 5 || counter === 5) {
+        if (!winning_grids.includes(grid)) {
+            winning_grids.push(grid)
+
+            if (winning_grids.length === grid_array.length) {
+                console.log(calculate_result(grid, number))
+            }
+        }
+        printWin(grid, number)
+        calculate_result(grid, number)
+
     }
 }
 
-let printWin = (grid) => {
-    winningP = document.createElement('p')
-    winningP.appendChild(document.createTextNode("CONRATS!! THE WINNING TICKET IS #" + String(grid)))
-    console.log(winningP.innerHTML)
-    winningP.className = 'floating_2'
-    let part_one = document.getElementById('#part_one');
-    part_one.appendChild(winningP)
+let printWin = (grid, number) => {
+    if (typeof (winningP) === 'undefined') {
+        winningP = document.createElement('p')
+        winningP.appendChild(document.createTextNode("CONRATS!! THE WINNING TICKET IS #" + String(grid)))
+        winningP.className = 'floating_2 rotate2'
+        let part_one = document.getElementById('#part_one');
+        part_one.appendChild(winningP)
+        calculate_result(grid, number)
+    }
+
+}
+let calculate_result = (grid, number) => {
+    sum_of_unmarked = 0
+    for (let i in grid_array[grid]) {
+        for (let j in grid_array[grid][i]) {
+            if (!input_numbers.slice(0, number + 1).includes(grid_array[grid][i][j])) {
+                sum_of_unmarked += Number(grid_array[grid][i][j])
+            }
+        }
+    }
+    return (sum_of_unmarked * input_numbers[number])
 
 }
 
