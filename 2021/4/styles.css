@@ -56,6 +56,13 @@
   top: 250px;
 }
 
+.floating_2{
+  position: fixed;
+  left : 170px;
+  top: 250px;
+
+}
+
 .rotate1{
   transform: rotate(1deg);
 }

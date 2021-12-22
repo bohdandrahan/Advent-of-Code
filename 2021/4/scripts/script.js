@@ -123,6 +123,11 @@ function checkForWinners(number, grid, row, cell) {
 
 let printWin = (grid) => {
     winningP = document.createElement('p')
+    winningP.appendChild(document.createTextNode("CONRATS!! THE WINNING TICKET IS #" + String(grid)))
+    console.log(winningP.innerHTML)
+    winningP.className = 'floating_2'
+    let part_one = document.getElementById('#part_one');
+    part_one.appendChild(winningP)
 
 }
 
