@@ -3,7 +3,6 @@ class Input_Reader():
         self.file = open(file_path);
         self.convert_to_list();
 
-
     def convert_to_list(self):
         for line in self.file:
             self.input = line.split(",")
