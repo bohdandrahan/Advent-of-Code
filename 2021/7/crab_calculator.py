@@ -19,6 +19,9 @@ class Crab_Calculator():
         #to be 462. Not sure if it is the python or the server side issue.
         #I consider this to be good enough solution and not going to investigate
         #this bug anymore.
+        #
+        #Looks like brute force is a better solution because you don't have to
+        #worry about rounding errors at all
         self.average = round(((sum(self.data)/float(len(self.data)))))
 
         print(self.average)
