@@ -2,7 +2,7 @@ from input_reader import Input_Reader;
 from calculator import Calculator;
 
 test_file = Input_Reader('test_input.txt')
-test_file.printme();
+test_file.printme()
 
 #test_result1 = Calculator(test_file.get_list()).calculate1()
 #print('Solution for test 1st part: ' + str(test_result1))

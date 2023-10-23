@@ -7,7 +7,7 @@ class Input_Reader():
     def convert_to_list(self):
         self.input = []
         for line in self.file:
-            print line[1]
+            print(line[1])
 
     def get_list(self):
         return self.input
