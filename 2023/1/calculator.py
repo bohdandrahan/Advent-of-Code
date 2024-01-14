@@ -40,7 +40,9 @@ class Calculator():
                     end = char
 
                 for j, number in enumerate(spellings):
+                    
                     print(each[i:len(number)+1])
+                    #I'm very impressed that this worked the first time I ran it. I'm sure there are better solutions, but I'm quite impressed with myself 
                     if each[i:len(number)+i] == number:
                         if start == "":
                             start = str(j)
