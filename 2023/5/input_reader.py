@@ -5,15 +5,18 @@ class Input_Reader():
 
 
     def convert_to_list(self):
-        self.input = []
+        self.maps = list() 
+        self.seeds = list()
 
         for line in self.file:
-            line = line.split(':')[1].split('|')
-            
-            winning_nums = list(map(int, line[0].split()))
-            nums_you_have = list(map(int, line[1].split()))
+            if "seeds:" in line:
+                self.seeds = [int(each.strip()) for each in line.strip("seeds:").split()]
+                continue
+                
+            if len(line.split()) == 2:
+                self.maps.append(list())
+            if len(line.split()) == 3:
+                self.maps[-1].append(list(int(each) for each in line.split()))
 
-            self.input.append([winning_nums, nums_you_have])
-
-    def get_list(self):
-        return self.input
+    def get_data(self):
+        return [self.seeds, self.maps]
