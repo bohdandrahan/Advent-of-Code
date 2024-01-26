@@ -4,6 +4,7 @@ class Calculator():
         self.data = data_list
 
     def calculate(self, data):
+        # TODO document why this method is empty
         pass
 
     def calculate1(self):

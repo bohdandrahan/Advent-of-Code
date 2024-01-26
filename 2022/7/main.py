@@ -4,6 +4,7 @@ from calculator import Calculator;
 test_file = Input_Reader('test_input.txt')
 test_file.printme()
 
+
 # test_result1 = Calculator(test_file.word).calculate1()
 # print('Solution for test 1st part: ' + str(test_result1))
 
