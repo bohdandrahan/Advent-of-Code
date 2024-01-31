@@ -8,7 +8,6 @@ class Input_Reader():
         self.data = []
         for line in self.file:
             self.data.append(int(line.strip()))
-        print(self.data)
 
     def get_data(self):
         return self.data
