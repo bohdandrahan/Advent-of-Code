@@ -6,12 +6,17 @@ class Input_Reader():
 
     def convert_to_list(self):
 
-        self.data = []
+        self.data = {'nodes' : {}, 'rules' : ''}
+        
         for i, line in enumerate(self.file):
             if i == 0:
-                self.rules = line
-            elif i >1:
-                self.data.append(line.split() )
+                self.data['rules'] = line.strip()
+            elif i > 1:
+                node = line[0:3]
+                left = line[7:10]
+                right = line[12:15]
+
+                self.data['nodes'][node] = [left, right]
 
     def get_data(self):
         return self.data
