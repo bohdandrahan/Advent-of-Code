@@ -1,131 +1,68 @@
 
 
+import re
+
+
 class Calculator():
     def __init__(self, data):
         # TODO: maybe refactor self.analyze_start to be in construcrtors
         # so the value is not being overwritten in methods
-        self.data = list(data)
-        self.dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
-        self.legend = {
-            '-': [[1, 0], [-1, 0]],
-            '|': [[0, 1], [0, -1]],
-            'L': [[1, 0], [0, -1]],
-            'J': [[-1, 0], [0, -1]],
-            '7': [[0, 1], [-1, 0]],
-            'F': [[1, 0], [0, 1]]
-        }
-        self.start = self.calculate_start()
-        self.analyze_start()
+        self.data = data
 
-    def calculate_start(self):
-        for i, row in enumerate(self.data):
-            for j, char in enumerate(row):
-                if char == 'S':
-                    return [j, i]
-        return [-1, -1]
+    def expand(self):
+        expanded_data = []
+        for line in self.data:
+            empty = True
+            for each in line:
+                if each != '.':
+                    empty = False
 
-    def get_char(self, location):
-        x = location[0]
-        y = location[1]
-        for i, row in enumerate(self.data):
-            for j, char in enumerate(row):
-                if [j, i] == [x, y]:
-                    return char
+            if empty:
+                expanded_data.append(line)
 
-        return 'char not found'
+            expanded_data.append(line)
 
-    def is_valid_position(self, x_y):
-        return (x_y[0] >= 0 and x_y[0] < len(self.data)
-                and x_y[1] >= 0 and x_y[1] < len(self.data[0]))
+        self.expanded_data = []
 
-    def inverted(self, dir):
-        return [-dir[0], -dir[1]]
+        for j in range(len(expanded_data)):
+            self.expanded_data.append([])
 
-    def get_next(self, dir, loc):
-        return [dir[0]+loc[0], dir[1]+loc[1]]
+        for i in range(len(expanded_data[0])):
 
-    def analyze_start(self):
-        print('analyze start')
-        start_dirs = []
-        dir = []
-        for direction in self.dirs:
-            next = self.get_next(direction, self.start)
-            if self.is_valid_position(next):
-                char = self.get_char(next)
-                if char in self.legend \
-                        and self.inverted(direction) in self.legend[char]:
-                    dir = direction
-                    start_dirs.append(dir)
+            empty = True
+            for j in range(len(expanded_data)):
+                if expanded_data[j][i] != '.':
+                    empty = False
 
-        for pipe_element in self.legend:
-            if start_dirs[0] in self.legend[pipe_element] \
-                    and start_dirs[1] in self.legend[pipe_element]:
+            for j in range(len(expanded_data)):
+                if empty:
+                    self.expanded_data[j].append(expanded_data[j][i])
+                self.expanded_data[j].append(expanded_data[j][i])
 
-                self.data[self.start[1]] = pipe_element.join(
-                    [self.data[self.start[1]][:self.start[0]],
-                     self.data[self.start[1]][self.start[0]+1:]])
+    def regestr(self):
+        regestry = []
+        for x, line in enumerate(self.expanded_data):
+            for y,  ch in enumerate(line):
+                if ch == '#':
+                    regestry.append([x, y])
 
-        self.start_dir = dir
+        self.regesrty = regestry
 
     def calculate1(self):
-        count = 1
-        char = self.get_char(self.start)
-        dir = self.start_dir
-        curr = self.get_next(self.start, dir)
+        self.expand()
+        self.regestr()
 
-        while curr != self.start:
-            next_dir = []
-            if self.legend[char][0] == self.inverted(dir):
-                next_dir = self.legend[char][1]
+        sum = 0
+        for i, galaxy in enumerate(self.regesrty):
+            if i == len(self.regesrty)-1:
+                continue
 
-            else:
-                next_dir = self.legend[char][0]
+            for each in self.regesrty[i+1:]:
+                print('each', each, galaxy, abs(each[0]-galaxy[0]), abs(each[1]-galaxy[1])
+                      )
+                sum += abs(each[0]-galaxy[0]) + abs(each[1]-galaxy[1])
 
-            curr = self.get_next(next_dir, curr)
-            char = self.get_char(curr)
-            dir = next_dir
-            count += 1
-
-        return count//2
+        return sum
 
     def calculate2(self):
-
-        pipes = [self.start]
-
-        char = self.get_char(self.start)
-        dir = self.start_dir
-        curr = self.get_next(self.start, dir)
-        print('start found, walking throught the pipe')
-
-        while curr != self.start:
-            pipes.append(curr)
-            next_dir = []
-            if self.legend[char][0] == self.inverted(dir):
-                next_dir = self.legend[char][1]
-
-            else:
-                next_dir = self.legend[char][0]
-
-            curr = self.get_next(next_dir, curr)
-            char = self.get_char(curr)
-            dir = next_dir
-
-        print('loop found')
-
-        # there used to be more code here, but this works
-        edges = pipes
-
-        print('edges calculated, get area')
-
-        area = 0
-        for i in range(len(edges)):
-            j = (i + 1) % len(edges)
-            area += (edges[i][0] * edges[j][1]) - \
-                (edges[j][0] * edges[i][1])
-
-        area = abs(area)/2
-        print(area)
-
-        i = area - len(edges)/2 + 1
-
-        return i
+        pass
