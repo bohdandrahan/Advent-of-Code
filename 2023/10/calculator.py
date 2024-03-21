@@ -2,9 +2,10 @@
 
 class Calculator():
     def __init__(self, data):
-        # TODO: maybe refactor self.analyze_start to be in construcrtors so the value is not being overwritten in methods
-        self.data = data
-        self.start = self.calculate_start()
+        # TODO: maybe refactor self.analyze_start to be in construcrtors
+        # so the value is not being overwritten in methods
+        self.data = list(data)
+        self.dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
         self.legend = {
             '-': [[1, 0], [-1, 0]],
             '|': [[0, 1], [0, -1]],
@@ -13,7 +14,8 @@ class Calculator():
             '7': [[0, 1], [-1, 0]],
             'F': [[1, 0], [0, 1]]
         }
-        self.dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        self.start = self.calculate_start()
+        self.analyze_start()
 
     def calculate_start(self):
         for i, row in enumerate(self.data):
@@ -45,14 +47,13 @@ class Calculator():
     def analyze_start(self):
         print('analyze start')
         start_dirs = []
-        curr, dir = [], []
+        dir = []
         for direction in self.dirs:
             next = self.get_next(direction, self.start)
             if self.is_valid_position(next):
                 char = self.get_char(next)
                 if char in self.legend \
                         and self.inverted(direction) in self.legend[char]:
-                    curr = next
                     dir = direction
                     start_dirs.append(dir)
 
@@ -64,12 +65,13 @@ class Calculator():
                     [self.data[self.start[1]][:self.start[0]],
                      self.data[self.start[1]][self.start[0]+1:]])
 
-        return curr, dir
+        self.start_dir = dir
 
     def calculate1(self):
         count = 1
-        curr, dir = self.analyze_start()
         char = self.get_char(self.start)
+        dir = self.start_dir
+        curr = self.get_next(self.start, dir)
 
         while curr != self.start:
             next_dir = []
@@ -88,11 +90,11 @@ class Calculator():
 
     def calculate2(self):
 
-        pipes = [self.calculate_start()]
-        curr, dir = self.analyze_start()
+        pipes = [self.start]
 
         char = self.get_char(self.start)
-
+        dir = self.start_dir
+        curr = self.get_next(self.start, dir)
         print('start found, walking throught the pipe')
 
         while curr != self.start:
