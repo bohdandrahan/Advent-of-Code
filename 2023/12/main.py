@@ -12,5 +12,5 @@ print('Solution for 1st part: ' + str(result1))
 
 test_result2 = Calculator(test_file.get_data()).calculate2()
 print('Solution for test 2nd part: ' + str(test_result2))
-# result2 = Calculator(file.get_data()).calculate2()
-# print('Solution for 2nd part: ' + str(result2))
+result2 = Calculator(file.get_data()).calculate2()
+print('Solution for 2nd part: ' + str(result2))
