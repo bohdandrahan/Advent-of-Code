@@ -15,5 +15,4 @@ class Input_Reader():
             self.data.append(listline)
 
     def get_data(self):
-        print(self.data)
         return self.data
