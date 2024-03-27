@@ -1,8 +1,7 @@
 class Input_Reader():
-    def __init__(self,file_path):
+    def __init__(self, file_path):
         self.file = open(file_path)
         self.convert_to_list()
-
 
     def convert_to_list(self):
         self.input = []
@@ -11,8 +10,8 @@ class Input_Reader():
             line = line.split(":")
             line = line[1]
             line = line.split(";")
-            
+
             self.input.append(line)
 
-    def get_list(self):
+    def get_data(self):
         return self.input

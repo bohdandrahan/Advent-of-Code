@@ -4,19 +4,16 @@ class Input_Reader():
         self.convert_to_list()
 
     def convert_to_list(self):
-
-        current = []
         self.data = []
 
         for i, line in enumerate(self.file):
-            if line == '\n':
-                self.data.append(current)
-                current = []
-
-            else:
-                current.append(line.strip())
-
-        self.data.append(current)
+            listline = []
+            for char in line:
+                if char == '\n':
+                    continue
+                listline.append(char)
+            self.data.append(listline)
 
     def get_data(self):
+        print(self.data)
         return self.data
