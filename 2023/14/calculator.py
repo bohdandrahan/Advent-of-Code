@@ -44,11 +44,31 @@ class Calculator():
     def calculate2(self):
         curr = self.data
 
-        for i in range(3):
+        log = []
+        last_indexes = []
+        cycle_runs = 500
+        progress = 0
+
+        for i in range(cycle_runs):
+            if i % (cycle_runs//10) == 0:
+                print(f'IN PROGRESS, {progress}% is done')
+                progress += 10
 
             for j in range(4):
                 curr = self.roll(curr)
                 curr = self.rotate_matrix_90_clockwise(curr)
-            print(i, self.calculate_value(curr))
 
-        pass
+            if self.calculate_value(curr) in log:
+                last_index = log[::-1].index(self.calculate_value(curr))
+            else:
+                last_index = -1
+            last_indexes.append(last_index)
+            # print(i, self.calculate_value(curr), last_index)
+            log.append(self.calculate_value(curr))
+        cycle_len = max(last_indexes[-100:]) + 1
+        modulo = (1000_000_000-1) % cycle_len
+
+        for each in range(cycle_runs - 1, -1, -1):
+            if each % cycle_len == modulo:
+                return log[each]
+        return -1

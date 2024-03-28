@@ -28,7 +28,6 @@ def main():
                 print(f"Invalid flag: \
                 {flag}. Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-partone or -parttwo]")
                 return
-    print(sys.argv)
 
     try:
         year = int(year)
@@ -45,6 +44,7 @@ def main():
 
     if use_test_input:
         input_file_path = os.path.join(folder_path, f"test_input.txt")
+        print("Using TEST input")
     else:
         input_file_path = os.path.join(folder_path, f"input.txt")
 
