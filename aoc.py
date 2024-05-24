@@ -63,8 +63,8 @@ def main():
         module = importlib.import_module(
             module_name.replace('/', '.'), package=f"{folder_path}")
         Calculator = getattr(module, "Calculator")
-    except ImportError:
-        print(f"Module {module_name} not found")
+    except ImportError as e:
+        print(f"An error occurred while importing module {module_name}: {e}")
         return
 
     module_name = f"{folder_path}/input_reader"
@@ -73,8 +73,8 @@ def main():
         module = importlib.import_module(
             module_name.replace('/', '.'), package=f"{folder_path}")
         Input_Reader = getattr(module, "Input_Reader")
-    except ImportError:
-        print(f"Module {module_name} not found")
+    except ImportError as e:
+        print(f"An error occurred while importing module {module_name}: {e}")
         return
 
     if part_one:
