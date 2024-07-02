@@ -36,4 +36,19 @@ class Calculator():
         return result
 
     def calculate2(self):
-        pass
+        ratings = []
+        i = 0
+        for x in range(1, 4001):
+            for m in range(1, 4001):
+                for a in range(1, 4001):
+                    for s in range(1, 4001):
+                        ratings.append({'x': x, 'm': m, 'a': a, 's': s})
+                        i += 1
+                        print(i)
+
+        result = 0
+        for rating in ratings:
+            init_workflow = self.workflows['in']
+            if self.get_rating_is_accepted(rating, init_workflow):
+                result += self.calculate_rating_result(rating)
+        return result
