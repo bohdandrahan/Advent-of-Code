@@ -45,13 +45,7 @@ class Calculator():
     def calculate1(self):
         self.field = self.get_field()
         self.df.apply(self.update_field_with_next_row, axis=1)
-
-        result = 0
-
-        for row in self.field:
-            for each in row:
-                if each > 1:
-                    result += 1
+        result = np.sum(self.field > 1)
         return result
 
     def calculate2(self):
