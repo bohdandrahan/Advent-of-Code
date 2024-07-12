@@ -48,5 +48,4 @@ class Input_Reader():
 
     def get_data(self):
         pd.set_option('display.max_columns', None)
-        print(self.df.head())
         return self.df

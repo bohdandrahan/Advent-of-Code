@@ -11,7 +11,7 @@ class Calculator():
     def __init__(self, df):
         self.df = df
 
-    def calculate1(self):
+    def calculate_sleep_sessions(self):
         sleep_sessions = pd.DataFrame([], columns=['guard_id', 'day',
                                                    'time_start_sleep', 'time_end_sleep',
                                                    'duration'])
@@ -40,7 +40,6 @@ class Calculator():
             if row['event'] == 'wakes up':
 
                 if current_time_start == None or current_day == None or current_guard == None:
-                    print(current_time_start, current_day, current_guard)
                     raise Exception(
                         "Something is worng, we should have day or guard or start time at this moment")
 
@@ -54,22 +53,41 @@ class Calculator():
                                                            'duration': duration}
 
                 current_time_start == None
+        self.sleep_sessions = sleep_sessions
 
-        pd.set_option('display.max_columns', None)
-        print(len(sleep_sessions))
-        print(sleep_sessions.head(10))
-
-        most_slept_guard = sleep_sessions.groupby(
+    def calculate1(self):
+        self.calculate_sleep_sessions()
+        most_slept_guard = self.sleep_sessions.groupby(
             ['guard_id'])['duration'].sum().idxmax()
-        print('MOST SLEPT GUARD', most_slept_guard)
 
         minutes_slept = pd.Series(0, index=range(60))
 
-        sleep_sessions.query(
+        self.sleep_sessions.query(
             'guard_id == @most_slept_guard').apply(update_minutes_slept, args=[minutes_slept], axis=1)
         most_slept_minute = minutes_slept.idxmax()
-        print('MOST SLEPT min', most_slept_minute)
         return most_slept_guard * most_slept_minute
 
     def calculate2(self):
-        pass
+
+        self.calculate_sleep_sessions()
+
+        max_value_slept_min = 0
+        max_slept_min = None
+        max_guard = None
+
+        for guard in self.sleep_sessions['guard_id'].unique():
+            print('GUARD', guard)
+
+            minutes_slept = pd.Series(0, index=range(60))
+
+            self.sleep_sessions.query(
+                'guard_id == @guard').apply(update_minutes_slept, args=[minutes_slept], axis=1)
+
+            most_slept_minute = minutes_slept.idxmax()
+
+            if minutes_slept[most_slept_minute] > max_value_slept_min:
+                max_value_slept_min = minutes_slept[most_slept_minute]
+                max_slept_min = most_slept_minute
+                max_guard = guard
+
+        return max_guard * max_slept_min
