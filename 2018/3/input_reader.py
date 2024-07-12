@@ -25,5 +25,4 @@ class Input_Reader():
         self.df = self.df[[0, 'x', 'y', 'width', 'height']]
 
     def get_data(self):
-        print(self.df.head())
         return self.df
