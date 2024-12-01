@@ -5,9 +5,14 @@ class Input_Reader():
 
     def convert_to_list(self):
         self.data = []
+        first = []
+        second = []
         for i, line in enumerate(self.file):
-            line = line.strip()
-            self.data.append(line)
+            line = line.strip().split()
+            first.append(int(line[0]))
+            second.append(int(line[1]))
+
+        self.data = [first, second]
 
     def get_data(self):
         return self.data
