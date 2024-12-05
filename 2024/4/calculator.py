@@ -19,7 +19,6 @@ class Calculator():
                 for direction in self.directions:
                     if self.get_is_word(x, y, direction):
                         sum += 1
-
         return sum
 
     def calculate2(self):
