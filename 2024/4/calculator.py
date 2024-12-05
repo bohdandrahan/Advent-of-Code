@@ -27,9 +27,6 @@ class Calculator():
 
         sum = 0
 
-        print('calculate 1 is running')
-        sum = 0
-
         for x in range(len(self.data[0])):
             for y in range(len(self.data)):
                 for possible_permutation in self.possible_permutations:
