@@ -26,14 +26,16 @@ class Calculator():
         return sum
 
     def fix_update(self, update):
-        for rule in self.data[0]:
-            if rule[0] not in update or rule[1] not in update:
-                continue
+        for j in range(100):
+            for rule in self.data[0]:
+                if rule[0] not in update or rule[1] not in update:
+                    continue
 
-            if update.index(rule[0]) > update.index(rule[1]):
-                temp = update[update.index(rule[0])]
-                update[update.index(rule[0])] = update[update.index(rule[1])]
-                update[update.index(rule[1])] = temp
+                if update.index(rule[0]) > update.index(rule[1]):
+                    temp = update[update.index(rule[0])]
+                    update[update.index(
+                        rule[0])] = update[update.index(rule[1])]
+                    update[update.index(rule[1])] = temp
 
     def get_is_correct_update(self, update):
         is_correct = True
