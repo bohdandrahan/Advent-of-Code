@@ -58,14 +58,28 @@ class Calculator():
             else:
                 spaces.append(int(number))
 
-        print(files, spaces, 'BEFORE')
+        i = len(files) - 1
 
         id_files = []
-
         for id, size in enumerate(files):
             id_files.append([size, id])
 
-        i = len(id_files) - 1
+        while i > 0:
+            file = id_files[i]
+            for j in range(id_files.index(file)):
+                if spaces[j] >= file[0]:
+
+                    spaces[j] -= file[0]
+                    spaces.insert(j, 0)
+                    spaces[i] += file[0]
+                    if i+1 < len(spaces):
+                        spaces[i] += spaces[i+1]
+                        spaces.pop(i+1)
+
+                    id_files.pop(i)
+                    id_files.insert(j+1, file)
+                    break
+            i -= 1
 
         disk = []
         for i in range(len(id_files)):
@@ -74,8 +88,10 @@ class Calculator():
             for each in range(spaces[i]):
                 disk.append('.')
 
-        print(disk)
-        print('THIS', id_files, spaces)
-
         result = 0
+
+        for i, each in enumerate(disk):
+            if each != '.':
+                result += each * i
+
         return result
