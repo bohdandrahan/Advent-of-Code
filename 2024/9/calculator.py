@@ -7,15 +7,12 @@ class Calculator():
 
         disk = []
         for i, number in enumerate(self.data):
-            print(i, number)
             if i % 2 == 0:
                 for each in range(int(number)):
                     disk.append(int(i//2))
             else:
                 for each in range(int(number)):
                     disk.append('.')
-        print(disk)
-        print(disk.count('.'))
 
         l = 0
         r = len(disk) - 1
@@ -39,8 +36,6 @@ class Calculator():
             if each == '.':
                 break
             result += i * each
-
-        print(disk)
 
         return result
 
