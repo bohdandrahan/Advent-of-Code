@@ -3,7 +3,6 @@ import os
 import time
 import importlib
 
-
 def main():
     if len(sys.argv) < 3 or len(sys.argv) > 5:
         print(
@@ -13,20 +12,23 @@ def main():
     year = sys.argv[1]
     problem_set_number = sys.argv[2]
     use_test_input = False
-    part_one = False
-    part_two = False
+    part_one = True
+    part_two = True
+    debugger = False
 
     if len(sys.argv) > 3:
         for flag in sys.argv[3:]:
             if flag in ['-t', '--test']:
                 use_test_input = True
             elif flag in ['-partone', '-1']:
-                part_one = True
+                part_two = False
             elif flag in ['-parttwo', '-2']:
-                part_two = True
+                part_one = True
+            elif flag in ['-debugger', '-d']:
+                debugger = True
             else:
                 print(f"Invalid flag: \
-                {flag}. Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-partone or -parttwo]")
+                {flag}. Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-partone or -parttwo] [-d or --debugger]")
                 return
 
     try:
@@ -53,10 +55,6 @@ def main():
         {problem_set_number} not found.")
         return
 
-    if part_one and part_two:
-        print("Please choose either part one or part two, not both.")
-        return
-
     module_name = f"{folder_path}/calculator"
 
     try:
@@ -77,40 +75,40 @@ def main():
         print(f"An error occurred while importing module {module_name}: {e}")
         return
 
+    if debugger:
+
+        try:
+            test_calculator = Calculator(Input_Reader(input_file_path).get_data(), debugger)
+        except TypeError:
+            print("ERROR: Debugger flag is not supported here. Try to remove -d or debugger from the input")
+            return
+
     if part_one:
         print("Running part one of the problem set")
         start_time = time.time()
-        result1 = Calculator(Input_Reader(
-            input_file_path).get_data()).calculate1()
+
+        if debugger:
+            result1 = Calculator(Input_Reader(
+                input_file_path).get_data(), debugger).calculate1()
+        else:
+            result1 = Calculator(Input_Reader(
+                input_file_path).get_data()).calculate1()
+
         end_time = time.time()
         print('Solution for 1st part: ' + str(result1))
         execution_time = end_time - start_time
         print("Execution time: {:.3f} seconds".format(execution_time))
 
-    elif part_two:
+    if part_two:
         print("Running part two of the problem set")
         start_time = time.time()
-        result1 = Calculator(Input_Reader(
-            input_file_path).get_data()).calculate2()
-        end_time = time.time()
-        print('Solution for 2st part: ' + str(result1))
-        execution_time = end_time - start_time
-        print("Execution time: {:.3f} seconds".format(execution_time))
 
-    else:
-        print("Running part one of the problem set")
-        start_time = time.time()
-        result1 = Calculator(Input_Reader(
-            input_file_path).get_data()).calculate1()
-        end_time = time.time()
-        print('Solution for 1st part: ' + str(result1))
-        execution_time = end_time - start_time
-        print("Execution time: {:.3f} seconds".format(execution_time))
-
-        print("Running part two of the problem set")
-        start_time = time.time()
-        result1 = Calculator(Input_Reader(
-            input_file_path).get_data()).calculate2()
+        if debugger:
+            result1 = Calculator(Input_Reader(
+                input_file_path).get_data(), debugger).calculate2()
+        else:
+            result1 = Calculator(Input_Reader(
+                input_file_path).get_data()).calculate2()
         end_time = time.time()
         print('Solution for 2st part: ' + str(result1))
         execution_time = end_time - start_time
