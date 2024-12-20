@@ -6,7 +6,6 @@ class Calculator():
         self.pr(data)
 
     def calculate1(self):
-
         print('calculate 1 is running')
 
         result = 0
@@ -22,11 +21,6 @@ class Calculator():
                 result += 1
 
         return result
-
-    def calculate2(self):
-        print('calculate 2 is running')
-
-        return
 
     def pr(self, *content_to_print):
         if self.debugger:
@@ -50,3 +44,31 @@ class Calculator():
 
         self.seen_map[design] = is_matching
         return is_matching
+
+    def calculate2(self):
+        print('calculate 2 is running')
+        result = 0
+
+        self.seen_map = dict()
+
+        for design in self.data["designs"]:
+            self.pr("I CAN SEE THIS")
+            result += self.calculate_design(design)
+
+        return result
+
+    def calculate_design(self, design) -> int:
+        if design in self.seen_map:
+            return self.seen_map[design]
+
+        numbers_of_design = 0
+        for pattern in self.data["patterns"]:
+            if len(pattern) > len(design) or pattern != design[:len(pattern)]:
+                continue
+            if pattern == design:
+                numbers_of_design += 1
+            numbers_of_design += self.calculate_design(design[len(pattern):])
+
+        self.pr(design, numbers_of_design)
+        self.seen_map[design] = numbers_of_design
+        return numbers_of_design
