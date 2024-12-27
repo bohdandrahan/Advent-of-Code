@@ -3,10 +3,11 @@ import os
 import time
 import importlib
 
+
 def main():
-    if len(sys.argv) < 3 or len(sys.argv) > 5:
+    if len(sys.argv) < 3 or len(sys.argv) > 6:
         print(
-            "Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-partone or -parttwo]")
+            "Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-1 --partone or -2 --parttwo] [-d or --debugger]")
         return
 
     year = sys.argv[1]
@@ -20,15 +21,15 @@ def main():
         for flag in sys.argv[3:]:
             if flag in ['-t', '--test']:
                 use_test_input = True
-            elif flag in ['-partone', '-1']:
+            elif flag in ['--partone', '-1']:
                 part_two = False
-            elif flag in ['-parttwo', '-2']:
+            elif flag in ['--parttwo', '-2']:
                 part_one = True
-            elif flag in ['-debugger', '-d']:
+            elif flag in ['--debugger', '-d']:
                 debugger = True
             else:
                 print(f"Invalid flag: \
-                {flag}. Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-partone or -parttwo] [-d or --debugger]")
+                {flag}. Usage: python aoc.py <year> <problem_set_number> [-t or --test] [-1 --partone or -2 --parttwo] [-d or --debugger]")
                 return
 
     try:
@@ -78,9 +79,11 @@ def main():
     if debugger:
 
         try:
-            test_calculator = Calculator(Input_Reader(input_file_path).get_data(), debugger)
+            test_calculator = Calculator(Input_Reader(
+                input_file_path).get_data(), debugger)
         except TypeError:
-            print("ERROR: Debugger flag is not supported here. Try to remove -d or debugger from the input")
+            print(
+                "ERROR: Debugger flag is not supported here. Try to remove -d or debugger from the input")
             return
 
     if part_one:
