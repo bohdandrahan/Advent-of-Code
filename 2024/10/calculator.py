@@ -47,4 +47,33 @@ class Calculator():
 
     def calculate2(self):
         print('calculate 2 is running')
-        return
+        zeros = list()
+
+        for x, row in enumerate(self.data):
+            for y, each in enumerate(self.data[x]):
+                if each == 0:
+                    self.pr(x, y)
+                    zeros.append([x, y])
+
+        result = 0
+        for zero in zeros:
+            nine_map = 0
+            result += self.walk_path_2(nine_map, 0, zero)
+
+        return result
+
+    def walk_path_2(self, map, current_number, current_location):
+        if current_number == 9:
+            return 1
+
+        result = 0
+        for direction in self.directions:
+            next_x = current_location[0] + direction[0]
+            next_y = current_location[1] + direction[1]
+            if next_x < 0 or next_x >= len(self.data) or next_y < 0 or next_y >= len(self.data[0]):
+                continue
+            if self.data[next_x][next_y] != current_number + 1:
+                continue
+            result += self.walk_path_2(map,
+                                       current_number + 1, [next_x, next_y])
+        return result
