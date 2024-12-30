@@ -1,4 +1,4 @@
-from types import new_class
+from typing import DefaultDict
 
 
 class Calculator():
@@ -37,4 +37,27 @@ class Calculator():
 
     def calculate2(self):
         print('calculate 2 is running')
-        return
+
+        stones = list(self.data)
+        stones_count = DefaultDict(int)
+        for stone in stones:
+            stones_count[stone] += 1
+
+        for i in range(75):
+            self.pr("BLINK NUMBER ", i)
+
+            new_stones = DefaultDict(int)
+
+            for stone in stones_count:
+                if stone == 0:
+                    new_stones[1] += stones_count[0]
+                elif len(str(stone)) % 2 == 0:
+                    new_stones[int(str(stone)[:len(str(stone))//2])
+                               ] += stones_count[stone]
+                    new_stones[int(str(stone)[len(str(stone))//2:])
+                               ] += stones_count[stone]
+                else:
+                    new_stones[stone * 2024] += stones_count[stone]
+            stones_count = new_stones
+
+        return sum(stones_count.values())
