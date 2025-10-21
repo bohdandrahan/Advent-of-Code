@@ -14,6 +14,9 @@ class Calculator():
         self.pr(self.data)
         print('calculate 1 is running')
 
+        for x, row in enumerate(self.data):
+            for each in enumerate(row):
+
     def calculate2(self):
 
         print('calculate 2 is running')
